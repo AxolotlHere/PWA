@@ -4,13 +4,13 @@
 
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { COLORS, getIRIColor, getIRILabel } from '../utils/theme';
+import { COLORS, getIRIColor, getIRILabel, RADIUS } from '../utils/theme';
 
 export default function SegmentHistory({ segments = [] }) {
   if (segments.length === 0) {
     return (
       <View style={styles.empty}>
-        <Text style={styles.emptyText}>Driving 100m segments will appear here</Text>
+        <Text style={styles.emptyText}>Segments will appear here securely processed online.</Text>
       </View>
     );
   }
@@ -20,7 +20,7 @@ export default function SegmentHistory({ segments = [] }) {
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scroll}
-      nestedScrollEnabled={true} // FIX: required for Android when inside a vertical ScrollView
+      nestedScrollEnabled={true}
     >
       {segments.slice(-20).map((seg, i) => {
         const color = getIRIColor(seg.iri_value);
@@ -28,7 +28,7 @@ export default function SegmentHistory({ segments = [] }) {
         return (
           <View
             key={i}
-            style={[styles.chip, { borderColor: color + '60', backgroundColor: color + '10' }]}
+            style={[styles.chip, { borderColor: color + '40', backgroundColor: COLORS.bg2 }]}
           >
             <Text style={[styles.segNum, { color: COLORS.textMuted }]}>
               #{seg.segment_index + 1}
@@ -36,7 +36,7 @@ export default function SegmentHistory({ segments = [] }) {
             <Text style={[styles.iriVal, { color }]}>
               {seg.iri_value != null ? seg.iri_value.toFixed(1) : '—'}
             </Text>
-            <Text style={[styles.cond, { color: color + 'CC' }]}>{label}</Text>
+            <Text style={[styles.cond, { color: color }]}>{label}</Text>
           </View>
         );
       })}
@@ -47,41 +47,52 @@ export default function SegmentHistory({ segments = [] }) {
 const styles = StyleSheet.create({
   scroll: {
     paddingHorizontal: 4,
-    gap: 6,
+    gap: 8,
     alignItems: 'center',
   },
   empty: {
-    height: 54,
+    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.borderBright,
+    borderRadius: RADIUS.md,
+    borderStyle: 'dashed',
+    backgroundColor: COLORS.bg2,
   },
   emptyText: {
-    fontSize: 10,
+    fontSize: 11,
     color: COLORS.textMuted,
     letterSpacing: 0.5,
   },
   chip: {
     alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 6,
-    borderRadius: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: RADIUS.md,
     borderWidth: 1,
-    minWidth: 52,
-    gap: 1,
+    minWidth: 60,
+    gap: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
   segNum: {
-    fontSize: 8,
+    fontSize: 9,
     letterSpacing: 0.5,
+    fontWeight: '700',
   },
   iriVal: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '300',
     letterSpacing: -0.5,
     fontVariant: ['tabular-nums'],
   },
   cond: {
-    fontSize: 7,
-    fontWeight: '700',
+    fontSize: 8,
+    fontWeight: '800',
     letterSpacing: 1,
   },
 });

@@ -13,7 +13,7 @@ const SVG_HEIGHT = 60;
 const SVG_WIDTH = 300;
 const Y_RANGE = 5;
 
-export default function AccelWaveform({ value = 0, color = COLORS.green }) {
+export default function AccelWaveform({ value = 0, color = COLORS.primary }) {
   const historyRef = useRef(new Array(HISTORY_LENGTH).fill(0));
   const polylineRef = useRef(null);
   const labelRef = useRef(null);
@@ -31,7 +31,6 @@ export default function AccelWaveform({ value = 0, color = COLORS.green }) {
       })
       .join(' ');
 
-    // FIX: bypass React re-render entirely
     if (polylineRef.current) {
       polylineRef.current.setNativeProps({ points: pts });
     }
@@ -46,14 +45,14 @@ export default function AccelWaveform({ value = 0, color = COLORS.green }) {
 
   return (
     <View style={styles.container}>
-      <Svg width={SVG_WIDTH} height={SVG_HEIGHT}>
+      <Svg width="100%" height="100%" viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`} preserveAspectRatio="none">
         <Line x1={0} y1={midY} x2={SVG_WIDTH} y2={midY}
-          stroke={COLORS.border} strokeWidth={0.5} strokeDasharray="4,4" />
+          stroke={COLORS.borderBright} strokeWidth={1} strokeDasharray="4,4" />
         {[2, -2].map((val) => {
           const y = SVG_HEIGHT - ((val + Y_RANGE) / (2 * Y_RANGE)) * SVG_HEIGHT;
           return (
             <Line key={val} x1={0} y1={y} x2={SVG_WIDTH} y2={y}
-              stroke={COLORS.border} strokeWidth={0.3} strokeDasharray="2,6" />
+              stroke={COLORS.border} strokeWidth={1} strokeDasharray="2,6" />
           );
         })}
         <Polyline
@@ -82,8 +81,7 @@ export default function AccelWaveform({ value = 0, color = COLORS.green }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.bg2,
-    borderRadius: 4,
+    flex: 1,
     overflow: 'hidden',
   },
 });

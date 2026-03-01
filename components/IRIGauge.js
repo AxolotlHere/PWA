@@ -14,12 +14,12 @@ export default function IRIGauge({ iri, isValid = true, style }) {
   return (
     <View style={[styles.container, style]}>
       <Text style={styles.unit}>IRI  m/km</Text>
-      <View style={[styles.valueContainer, { borderColor: color + '40' }]}>
+      <View style={[styles.valueContainer, { borderColor: color }]}>
         <Text style={[styles.value, { color }]}>
           {isValid ? formatIRI(iri) : '—'}
         </Text>
       </View>
-      <View style={[styles.badge, { backgroundColor: color + '20', borderColor: color + '60' }]}>
+      <View style={[styles.badge, { backgroundColor: color + '20', borderColor: color + '40' }]}>
         <Text style={[styles.badgeText, { color }]}>{label}</Text>
       </View>
       <Text style={styles.action}>{isValid ? action : 'SPEED < 20 km/h'}</Text>
@@ -30,36 +30,35 @@ export default function IRIGauge({ iri, isValid = true, style }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
   },
   unit: {
-    fontSize: 10,
-    color: COLORS.textMuted,
+    fontSize: 11,
+    color: COLORS.textSecondary,
     letterSpacing: 2,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   valueContainer: {
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    minWidth: 120,
+    borderBottomWidth: 2,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    minWidth: 100,
     alignItems: 'center',
   },
   value: {
-    fontSize: 52,
-    fontWeight: '200',
-    letterSpacing: -2,
+    fontSize: 56,
+    fontWeight: '300',
+    letterSpacing: -1,
     fontVariant: ['tabular-nums'],
   },
   badge: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 8,
     borderWidth: 1,
   },
   badgeText: {
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '800',
     letterSpacing: 2,
   },
@@ -67,6 +66,7 @@ const styles = StyleSheet.create({
     fontSize: 9,
     color: COLORS.textMuted,
     letterSpacing: 1.5,
-    fontWeight: '500',
+    fontWeight: '600',
+    marginTop: 4,
   },
 });

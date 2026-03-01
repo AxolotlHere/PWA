@@ -1,44 +1,48 @@
 // PULSE Design System
-// Aesthetic: Industrial telemetry — dark cockpit, phosphor green data, amber warnings
-// Inspired by aircraft instrument panels + Soviet-era engineering displays
+// Aesthetic: Premium dashboard — sleek dark mode, purples, slate grays, clean typography
 
 export const COLORS = {
   // Backgrounds
-  bg0: '#050810',        // Deepest background
-  bg1: '#0A0F1E',        // Primary background
-  bg2: '#0F1628',        // Card background
-  bg3: '#162035',        // Elevated card
-  border: '#1E2D4A',     // Subtle border
-  borderBright: '#2A3F5F', // Active border
+  bg0: '#000000',          // Deepest background (black)
+  bg1: '#09090b',          // Primary background (zinc-950)
+  bg2: '#18181b',          // Card background (zinc-900)
+  bg3: '#27272a',          // Elevated card (zinc-800)
+  border: '#27272a',       // Subtle border (zinc-800)
+  borderBright: '#3f3f46', // Active border (zinc-700)
 
-  // Phosphor green — primary data color
-  green: '#00FF88',
-  greenDim: '#00C86A',
-  greenFaint: '#003320',
-  greenMid: '#00884A',
+  // Primary branding — Purples and Blues
+  primary: '#c084fc',      // purple-400
+  primaryDim: '#9333ea',   // purple-600
+  primaryFaint: 'rgba(168, 85, 247, 0.1)',
 
-  // Amber — warnings, secondary data
-  amber: '#FFB800',
-  amberDim: '#CC9200',
-  amberFaint: '#2A2000',
+  secondary: '#60a5fa',    // blue-400
+  secondaryDim: '#3b82f6', // blue-500
+  secondaryFaint: 'rgba(59, 130, 246, 0.1)',
 
-  // Red — critical / poor condition
-  red: '#FF3B3B',
-  redDim: '#CC2020',
-  redFaint: '#2A0808',
+  // Accents & Signals
+  green: '#4ade80',        // green-400
+  greenDim: '#22c55e',     // green-500
+  greenFaint: 'rgba(74, 222, 128, 0.1)',
+
+  amber: '#fbbf24',        // amber-400
+  amberDim: '#f59e0b',     // amber-500
+  amberFaint: 'rgba(251, 191, 36, 0.1)',
+
+  red: '#f87171',          // red-400
+  redDim: '#ef4444',       // red-500
+  redFaint: 'rgba(248, 113, 113, 0.1)',
 
   // IRI condition colors (IRC:SP:20)
-  iriGood: '#00FF88',     // < 2.0
-  iriFair: '#FFB800',     // 2.0 - 4.0
-  iriPoor: '#FF6B00',     // 4.0 - 6.0
-  iriVeryPoor: '#FF3B3B', // > 6.0
+  iriGood: '#4ade80',      // Green
+  iriFair: '#fbbf24',      // Amber
+  iriPoor: '#f97316',      // orange-500
+  iriVeryPoor: '#ef4444',  // Red
 
   // Text
-  textPrimary: '#E8F0FF',
-  textSecondary: '#7A8FAE',
-  textMuted: '#3A4F6E',
-  textGreen: '#00FF88',
-  textAmber: '#FFB800',
+  textPrimary: '#ffffff',  // white
+  textSecondary: '#a1a1aa',// zinc-400
+  textMuted: '#71717a',    // zinc-500
+  textPurple: '#c084fc',
 
   // Neutral
   white: '#FFFFFF',
@@ -46,8 +50,8 @@ export const COLORS = {
 };
 
 export const FONTS = {
-  // Display: monospace engineering font
-  mono: 'SpaceMono',          // For data values
+  // Display: For data values, we can just use system fonts matching tabular numbers
+  mono: 'System',
   // Body: clean technical
   regular: 'System',
 };
@@ -62,10 +66,10 @@ export const SPACING = {
 };
 
 export const RADIUS = {
-  sm: 4,
-  md: 8,
-  lg: 12,
-  xl: 20,
+  sm: 6,
+  md: 12,
+  lg: 16,
+  xl: 24,
 };
 
 export const IRI_THRESHOLDS = {

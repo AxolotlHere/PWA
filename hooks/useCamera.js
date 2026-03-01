@@ -46,9 +46,9 @@ export function useCamera({ onFrame, enabled = false }) {
           width: 640,
         });
         if (photo?.base64 && onFrameRef.current) {
-          onFrameRef.current({ type: 'FRAME', timestamp: Date.now(), data: photo.base64, width: photo.width, height: photo.height });
+          onFrameRef.current({ type: 'CAMERA', timestamp: Date.now(), image: photo.base64, width: photo.width, height: photo.height });
         }
-      } catch (e) {}
+      } catch (e) { }
     }, FRAME_INTERVAL_MS);
   }
 

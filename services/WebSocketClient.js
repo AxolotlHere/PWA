@@ -2,7 +2,7 @@
  * PULSE WebSocket Client
  */
 
-const MAX_QUEUE_SIZE = 500;
+const MAX_QUEUE_SIZE = 2000;
 const RECONNECT_BASE_MS = 1000;
 const RECONNECT_MAX_MS = 30000;
 const HEARTBEAT_INTERVAL = 5000;
@@ -15,7 +15,7 @@ class WebSocketClient {
     this.isConnected = false;
     this.isConnecting = false;
     this.shouldReconnect = false;
-    this.destroyed = false; // FIX: prevents stale onclose from reconnecting
+    this.destroyed = false;
 
     this.queue = [];
     this.reconnectAttempts = 0;
@@ -32,10 +32,16 @@ class WebSocketClient {
   connect(host, sessionId) {
     if (this.isConnecting || this.isConnected) return;
 
-    this.destroyed = false; // FIX: reset on new connect
-    // Auto-detect wss:// for HTTPS hosts
-    const protocol = host.startsWith('https') ? 'wss' : 'ws';
-    const cleanHost = host.replace(/^https?:\/\//, '');
+    this.destroyed = false;
+
+    // Robust URL parsing for local vs cloud
+    let cleanHost = host.trim();
+    const isHttps = cleanHost.startsWith('https://');
+    cleanHost = cleanHost.replace(/^https?:\/\//, '');
+
+    // Auto-upgrade to WSS for known cloud tunnels
+    const protocol = (isHttps || cleanHost.includes('ngrok') || cleanHost.includes('vercel.app')) ? 'wss' : 'ws';
+
     this.serverUrl = `${protocol}://${cleanHost}/ws/${sessionId}`;
     this.sessionId = sessionId;
     this.shouldReconnect = true;
@@ -137,7 +143,27 @@ class WebSocketClient {
   }
 
   send(packet) {
-    const json = JSON.stringify(packet);
+    if (!packet || !packet.type) return;
+
+    // The backend SegmentManager expects {"type": "gps"|"imu"|"camera"|"audio", "data": {...}}
+    // But the React Native hooks generate flat objects: {"type": "GPS", "lat": ...}
+    // We must map them here to bridge the two systems.
+
+    // 1. Lowercase the type (e.g., 'GPS' -> 'gps')
+    const backendType = packet.type.toLowerCase();
+
+    // 2. Remove 'type' and 'timestamp' from the inner data payload
+    const { type, timestamp, ...dataPayload } = packet;
+
+    // 3. Construct the nested payload
+    const nestedPacket = {
+      type: backendType,
+      timestamp: timestamp || Date.now(),
+      data: dataPayload
+    };
+
+    const json = JSON.stringify(nestedPacket);
+
     if (this.isConnected) {
       this._rawSend(json);
     } else {
